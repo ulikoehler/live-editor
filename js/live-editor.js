@@ -54,9 +54,6 @@ window.LiveEditor = Backbone.View.extend({
             version: this.initialVersion
         };
 
-        this.transloaditTemplate = options.transloaditTemplate;
-        this.transloaditAuthKey = options.transloaditAuthKey;
-
         this.render();
 
         this.config = new ScratchpadConfig({
@@ -429,7 +426,7 @@ window.LiveEditor = Backbone.View.extend({
     },
 
     canRecord: function() {
-        return this.transloaditAuthKey && this.transloaditTemplate;
+        return true; /* Previously this checked if transloadit was available */
     },
 
     hasAudio: function() {
@@ -873,9 +870,7 @@ window.LiveEditor = Backbone.View.extend({
                 editor: this.editor,
                 config: this.config,
                 workersDir: workersDir,
-                drawCanvas: this.drawCanvas,
-                transloaditTemplate: this.transloaditTemplate,
-                transloaditAuthKey: this.transloaditAuthKey
+                drawCanvas: this.drawCanvas
             });
         }
 
@@ -888,20 +883,8 @@ window.LiveEditor = Backbone.View.extend({
             return callback();
         }
 
-        var transloadit = new TransloaditXhr({
-            authKey: this.transloaditAuthKey,
-            templateId: this.transloaditTemplate,
-            steps: steps,
-            successCb: function(results) {
-                this.recordingMP3 =
-                    results.mp3[0].url.replace(/^http:/, "https:");
-                callback(null, this.recordingMP3);
-            }.bind(this),
-            errorCb: callback
-        });
-
         this.recordView.getFinalAudioRecording(function(combined) {
-            transloadit.uploadFile(combined.wav);
+            console.info("WOULD UPLOAD", combined.wav);
         });
     },
 
