@@ -41,7 +41,6 @@
         "audio": [
             "bower_components/soundmanager/script/soundmanager2.js",
             "external/multirecorderjs/multirecorder.js",
-            "external/transloaditxhr/transloadit_xhr.js",
             "build/tmpl/dev-record.js",
             "js/ui/jquery.button.js"
         ],
